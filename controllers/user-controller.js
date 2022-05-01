@@ -1,7 +1,9 @@
+// import the User model
 const { User } = require('../models');
 
 // Create controller which holds the functionality BEFORE creating the API routes
-// Below are the five main CRUD methods for the /api/user endpoint.
+// Below are the five main CRUD methods for the /api/user endpoint
+// and two additional methods for adding/removing a friend
 const userController = {
     // get all users, i.e. GET /api/users
     getAllUsers(req, res) {
