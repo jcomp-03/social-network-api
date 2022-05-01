@@ -57,8 +57,26 @@ const userController = {
                 res.json(dbUserData);
             })
             .catch(err => res.status(400).json(err));
+    },
+    // add a friend to the user's friend list, i.e. POST /api/users/:userId/friends/:friendId
+    addFriend({ params }, res) {
+        User.findOneAndUpdate(
+            { _id: params.userId },
+            { $push: { friends: params.friendId }},
+            { new: true }
+        )
+        .then(dbUserData => {
+            if (!dbUserData) {
+                res.status(404).json({ message: 'Sorry. User id or friend id is incorrect.' });
+                return;
+            }
+            res.json(dbUserData);
+        })
+        .catch(err => res.status(400).json(err));
     }
+    // removeFriend({ params }, res){
 
+    // }
 };
 
 module.exports = userController;
