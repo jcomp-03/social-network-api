@@ -1,10 +1,11 @@
 {
   "name": "wk18-social-network-api",
-  "description": "AS A social media startup\r I WANT an API for my social network that uses a NoSQL database\r SO THAT my website can handle large amounts of unstructured data",
+  "description": "",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
@@ -18,6 +19,7 @@
   },
   "homepage": "https://github.com/jcomp-03/wk18-social-network-api#readme",
   "dependencies": {
+    "express": "^4.18.1",
     "mongoose": "^6.3.1"
   }
 }
