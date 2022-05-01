@@ -1,5 +1,5 @@
-// import the Thought model
-const { Thought } = require('../models/');
+// import the Thought and User model
+const { Thought, User } = require('../models/');
 
 // Create controller which holds the functionality BEFORE creating the API routes
 const thoughtController = {
@@ -45,7 +45,7 @@ const thoughtController = {
                 }
                 res.json(dbThoughtData);
             })
-            .catch(err => res.json(err));
+            .catch(err => res.status(400).json(err));
     },
     // update thought by id, i.e. PUT /api/thoughts/:id
     updateThought({ params, body }, res) {
