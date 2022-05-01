@@ -8,6 +8,11 @@ const userController = {
     // get all users, i.e. GET /api/users
     getAllUsers(req, res) {
         User.find({})
+            .populate({
+                path: 'friends',
+                select: '-__v'
+            })
+            .select('-__v')
             .then(dbUserData => res.json(dbUserData))
             .catch(err => {
                 console.log(err);
@@ -17,6 +22,10 @@ const userController = {
     // get one user by id, i.e. GET /api/users/:id
     getUserById({ params }, res) {
         User.findOne({ _id: params.id })
+            .populate({
+                path: 'friends',
+                select: '-__v'
+            })
             .then(dbUserData => {
                 // If no user is found, send 404
                 if (!dbUserData) {
@@ -65,7 +74,7 @@ const userController = {
         User.findOneAndUpdate(
             { _id: params.userId },
             { $push: { friends: params.friendId } },
-            { new: true }
+            { new: true, runValidators: true }
         )
             .then(dbUserData => {
                 if (!dbUserData) {

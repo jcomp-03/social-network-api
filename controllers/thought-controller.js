@@ -6,6 +6,11 @@ const thoughtController = {
     // get all thoughts, i.e. GET /api/thoughts
     getAllThoughts(req, res) {
         Thought.find({})
+            .populate({
+                path: 'reactions',
+                select: '-__v',
+            })
+            .select('-__v')
             .then(dbThoughtData => res.json(dbThoughtData))
             .catch(err => {
                 console.log(err);
@@ -72,15 +77,32 @@ const thoughtController = {
             .catch(err => res.status(400).json(err));
     },
     // add a reaction to a thought's reactions field, i.e. POST /api/thoughts/:thoughtId/reactions
-    addReaction({ params }, body, res) {
+    addReaction({ params, body }, res) {
         Thought.findOneAndUpdate(
             { _id: params.thoughtId },
             { $push: { reactions: body } },
             { new: true }
         )
             .then(dbThoughtData => {
+                console.log(dbThoughtData);
                 if (!dbThoughtData) {
                     res.status(404).json({ message: 'Sorry. No thought found with that id.' });
+                    return;
+                }
+                res.json(dbThoughtData);
+            })
+            .catch(err => res.status(400).json(err));
+    },
+    removeReaction({ params }, res) {
+        Thought.findOneAndUpdate(
+            { _id: params.thoughtId },
+            { $pull: { reactions: params.reactionId } },
+            { new: true }
+        )
+            .then(dbThoughtData => {
+                console.log(dbThoughtData);
+                if (!dbThoughtData) {
+                    res.status(404).json({ message: 'Sorry. No thought or reaction found with that id.' });
                     return;
                 }
                 res.json(dbThoughtData);
