@@ -7,8 +7,7 @@ const thoughtController = {
     getAllThoughts(req, res) {
         Thought.find({})
             .populate({
-                path: 'reactions',
-                select: '-__v',
+                path: 'reactions'
             })
             .select('-__v')
             .then(dbThoughtData => res.json(dbThoughtData))
@@ -20,6 +19,10 @@ const thoughtController = {
     // get one thought by id, i.e. GET /api/thoughts/:id
     getThoughtById({ params }, res) {
         Thought.findOne({ _id: params.id })
+            .populate({
+                path: 'reactions'
+            })
+            .select('-__v')
             .then(dbThoughtData => {
                 // If no thought is found, send 404
                 if (!dbThoughtData) {
@@ -83,6 +86,7 @@ const thoughtController = {
             { $push: { reactions: body } },
             { new: true }
         )
+            .select('-__v')
             .then(dbThoughtData => {
                 console.log(dbThoughtData);
                 if (!dbThoughtData) {
@@ -93,10 +97,11 @@ const thoughtController = {
             })
             .catch(err => res.status(400).json(err));
     },
+    // remove a reaction to a thought's reactions field, i.e. DELETE /api/thoughts/:thoughtId/reactions/:reactionId
     removeReaction({ params }, res) {
         Thought.findOneAndUpdate(
             { _id: params.thoughtId },
-            { $pull: { reactions: params.reactionId } },
+            { $pull: { reactions: { _id: params.reactionId } } },
             { new: true }
         )
             .then(dbThoughtData => {
