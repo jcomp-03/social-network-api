@@ -1,5 +1,5 @@
-// import the User model
-const { User } = require('../models');
+// import the User and Thought model
+const { User, Thought } = require('../models');
 
 // Create controller which holds the functionality BEFORE creating the API routes
 // Below are the five main CRUD methods for the /api/user endpoint
@@ -63,6 +63,7 @@ const userController = {
     },
     // delete user, i.e. DELETE /api/users/:id
     deleteUser({ params }, res) {
+        Thought.deleteMany({})
         User.findOneAndDelete({ _id: params.id })
             .then(dbUserData => {
                 if (!dbUserData) {
