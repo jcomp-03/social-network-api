@@ -23,7 +23,8 @@
     
   ## Usage
   This repository's code can be used as a framework for the interested party who wishes to create their own server-side API for some web application that allows for users to posts commentary, responses to other users' commentary, etc.<br>
-  No GIF/video was supplied
+   See the GIF below for a *very* brief intro to the API usage.<br>
+  ![Brief GIF showing how to run application.](./assets/images/app-gif.gif)
   ## License
   <p align="center">Copyright 2022</p>
     <p align="center">=======================================</p><br>
